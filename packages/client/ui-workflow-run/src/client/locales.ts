@@ -7,6 +7,7 @@ export const NS = 'workflowRun'
 export const zh = {
   'run.title': '{name}',
   'run.members.one': '{count} 个成员',
+  'run.members.few': '{count} 个成员',
   'run.members.other': '{count} 个成员',
   'run.empty': '没有启动成员',
   'phase.unassigned': '未分阶段',
@@ -29,6 +30,7 @@ export const zh = {
 export const en: Record<WorkflowRunKey, string> = {
   'run.title': '{name}',
   'run.members.one': '{count} member',
+  'run.members.few': '{count} members',
   'run.members.other': '{count} members',
   'run.empty': 'No members started',
   'phase.unassigned': 'Unphased',
@@ -45,6 +47,29 @@ export const en: Record<WorkflowRunKey, string> = {
   'status.failed': 'Failed',
   'status.cancelled': 'Cancelled',
   'status.interrupted': 'Interrupted',
+}
+
+/** Russian dictionary (same key set). */
+export const ru: Record<WorkflowRunKey, string> = {
+  'run.title': '{name}',
+  'run.members.one': '{count} участник',
+  'run.members.few': '{count} участника',
+  'run.members.other': '{count} участников',
+  'run.empty': 'Участники не запущены',
+  'phase.unassigned': 'Без фазы',
+  'phase.empty': 'Пустое имя фазы',
+  'statusCount.running': 'Выполняется: {count}',
+  'statusCount.completed': 'Завершено: {count}',
+  'statusCount.failed': 'Ошибка: {count}',
+  'statusCount.cancelled': 'Отменено: {count}',
+  'statusCount.interrupted': 'Прервано: {count}',
+  'member.empty': 'Пустое имя участника',
+  'member.open': 'Открыть {name}',
+  'status.running': 'Выполняется',
+  'status.completed': 'Завершено',
+  'status.failed': 'Ошибка',
+  'status.cancelled': 'Отменено',
+  'status.interrupted': 'Прервано',
 }
 
 /** Union of this namespace's dictionary keys. */

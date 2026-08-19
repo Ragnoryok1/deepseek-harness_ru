@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { TrajectoryTable } from '../src/client/TrajectoryTable.tsx'
 import type { TrajectoryTurnModel } from '../src/client/layout.ts'
+import { en } from '../src/client/locales.ts'
 
 afterEach(() => {
   cleanup()
@@ -62,6 +63,11 @@ const FOLD_PROPS = {
   onToggleTurn: () => {},
   collapsedAssistants: new Set<string>(),
   onToggleAssistant: () => {},
+  t: (key: string, params?: Record<string, unknown>) => {
+    const template = en[key as keyof typeof en] ?? key
+    if (!params) return template
+    return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+  },
 }
 
 describe('TrajectoryTable', () => {

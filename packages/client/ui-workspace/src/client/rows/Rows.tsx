@@ -239,7 +239,10 @@ function sessionStatuses(
       label: t(
         node.runningSubagentCount === 1
           ? 'status.subagentsRunning.one'
-          : 'status.subagentsRunning.other',
+          : (node.runningSubagentCount % 10 >= 2 && node.runningSubagentCount % 10 <= 4
+              && (node.runningSubagentCount % 100 < 12 || node.runningSubagentCount % 100 > 14))
+            ? 'status.subagentsRunning.few'
+            : 'status.subagentsRunning.other',
         { n: node.runningSubagentCount },
       ),
     }

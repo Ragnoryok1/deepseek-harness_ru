@@ -23,3 +23,12 @@ export const en = {
   'row.instructions': 'Instructions',
   'menu.userOnly': 'user-only',
 } satisfies Record<SkillKey, string>
+
+/** Russian dictionary, checked complete against the zh key set. */
+export const ru = {
+  'row.running': 'Загрузка навыка',
+  'row.failed': 'Не удалось загрузить навык',
+  'row.stopped': 'Загрузка навыка прервана',
+  'row.instructions': 'Инструкции',
+  'menu.userOnly': 'только пользователь',
+} satisfies Record<SkillKey, string>

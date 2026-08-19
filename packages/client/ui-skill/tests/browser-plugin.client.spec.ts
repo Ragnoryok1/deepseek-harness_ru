@@ -138,6 +138,13 @@ describe('apply', () => {
           'row.instructions': 'Instructions',
           'menu.userOnly': 'user-only',
         },
+        ru: {
+          'row.running': 'Загрузка навыка',
+          'row.failed': 'Не удалось загрузить навык',
+          'row.stopped': 'Загрузка навыка прервана',
+          'row.instructions': 'Инструкции',
+          'menu.userOnly': 'только пользователь',
+        },
       },
     }])
   })

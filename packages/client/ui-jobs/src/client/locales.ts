@@ -6,8 +6,10 @@ export const NS = 'job'
 /** Simplified Chinese dictionary (the key-set source of truth). */
 export const zh = {
   'count.live.one': '{count} 个后台任务运行中',
+  'count.live.few': '{count} 个后台任务运行中',
   'count.live.other': '{count} 个后台任务运行中',
   'count.idle.one': '{count} 个后台任务',
+  'count.idle.few': '{count} 个后台任务',
   'count.idle.other': '{count} 个后台任务',
   'list.aria': '后台任务',
   'status.running': '运行中',
@@ -25,8 +27,10 @@ export const zh = {
 /** English dictionary, key-identical to the Chinese source of truth. */
 export const en: Record<JobKey, string> = {
   'count.live.one': '{count} background job running',
+  'count.live.few': '{count} background jobs running',
   'count.live.other': '{count} background jobs running',
   'count.idle.one': '{count} background job',
+  'count.idle.few': '{count} background jobs',
   'count.idle.other': '{count} background jobs',
   'list.aria': 'Background jobs',
   'status.running': 'running',
@@ -39,6 +43,27 @@ export const en: Record<JobKey, string> = {
   'duration.hours': '{hours}h {minutes}m',
   'duration.title.live': 'Running for {duration}',
   'duration.title.done': 'Took {duration}',
+}
+
+/** Russian dictionary, key-identical to the Chinese source of truth. */
+export const ru: Record<JobKey, string> = {
+  'count.live.one': '{count} фоновая задача выполняется',
+  'count.live.few': '{count} фоновые задачи выполняются',
+  'count.live.other': '{count} фоновых задач выполняется',
+  'count.idle.one': '{count} фоновая задача',
+  'count.idle.few': '{count} фоновые задачи',
+  'count.idle.other': '{count} фоновых задач',
+  'list.aria': 'Фоновые задачи',
+  'status.running': 'выполняется',
+  'status.stopping': 'останавливается',
+  'status.completed': 'завершена',
+  'status.killed': 'отменена',
+  'status.failed': 'ошибка',
+  'duration.seconds': '{seconds} с',
+  'duration.minutes': '{minutes} мин {seconds} с',
+  'duration.hours': '{hours} ч {minutes} мин',
+  'duration.title.live': 'Выполняется {duration}',
+  'duration.title.done': 'Заняло {duration}',
 }
 
 /** Key domain of the `job` namespace (zh is the source of truth). */

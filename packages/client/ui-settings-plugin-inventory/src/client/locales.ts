@@ -46,3 +46,25 @@ export const en = {
   failed: 'Mount failed',
   unloading: 'Unloading',
 } satisfies Record<PluginInventoryLocaleKey, string>
+
+/** Russian dictionary checked against the Chinese key set. */
+export const ru = {
+  tab: 'Список плагинов',
+  loading: 'Чтение плагинов…',
+  error: 'Плагины временно недоступны.',
+  retry: 'Повторить',
+  search: 'Поиск плагинов',
+  catalog: 'Список плагинов',
+  empty: 'Нет доступных плагинов.',
+  emptySearch: 'Нет подходящих плагинов.',
+  enabledTag: 'Включён',
+  disabledTag: 'Отключён',
+  configuration: 'Конфигурация',
+  cordis: 'Статус Cordis',
+  unobserved: 'Не подключён',
+  pending: 'Ожидание зависимостей',
+  loadingPhase: 'Загрузка',
+  active: 'Подключён',
+  failed: 'Ошибка подключения',
+  unloading: 'Отключение',
+} satisfies Record<PluginInventoryLocaleKey, string>

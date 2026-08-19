@@ -28,7 +28,7 @@ import type { PermissionSelect } from '@deepseek-ai/dsh-permission-presets/clien
 import { PermissionRow } from './PermissionRow.tsx'
 import type { PermissionRowInjected } from './PermissionRow.tsx'
 import {
-  accessEn, accessZh, en, zh,
+  accessEn, accessRu, accessZh, en, ru, zh,
 } from './locales.ts'
 import {
   displayPermissionPreset, FULL_ACCESS_PRESET,
@@ -56,7 +56,7 @@ function optionsOf(value: PermissionSelect, t: (key: string) => string): SelectO
     .filter(option => option.value !== 'custom')
     .map(option => ({
       id: option.value,
-      label: displayPermissionPreset(option.value, option.name),
+      label: displayPermissionPreset(option.value, option.name, t),
       ...(option.description !== undefined ? { detail: option.description } : {}),
       ...(option.value === value.currentValue ? { active: true } : {}),
       ...(option.value === FULL_ACCESS_PRESET
@@ -87,6 +87,10 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(() => {
     const disposers = [
       ctx.locale.register(ACCESS_NS, 'zh', {
+        'level.fullAccess': accessZh['level.fullAccess'],
+        'level.workspaceWrite': accessZh['level.workspaceWrite'],
+        'level.readOnly': accessZh['level.readOnly'],
+        'level.custom': accessZh['level.custom'],
         'confirm.title': accessZh['confirm.title'],
         'confirm.description': accessZh['confirm.description'],
         'confirm.acknowledge': accessZh['confirm.acknowledge'],
@@ -94,11 +98,26 @@ export function apply(ctx: ClientContext): void {
         'confirm.enable': accessZh['confirm.enable'],
       }),
       ctx.locale.register(ACCESS_NS, 'en', {
+        'level.fullAccess': accessEn['level.fullAccess'],
+        'level.workspaceWrite': accessEn['level.workspaceWrite'],
+        'level.readOnly': accessEn['level.readOnly'],
+        'level.custom': accessEn['level.custom'],
         'confirm.title': accessEn['confirm.title'],
         'confirm.description': accessEn['confirm.description'],
         'confirm.acknowledge': accessEn['confirm.acknowledge'],
         'confirm.cancel': accessEn['confirm.cancel'],
         'confirm.enable': accessEn['confirm.enable'],
+      }),
+      ctx.locale.register(ACCESS_NS, 'ru', {
+        'level.fullAccess': accessRu['level.fullAccess'],
+        'level.workspaceWrite': accessRu['level.workspaceWrite'],
+        'level.readOnly': accessRu['level.readOnly'],
+        'level.custom': accessRu['level.custom'],
+        'confirm.title': accessRu['confirm.title'],
+        'confirm.description': accessRu['confirm.description'],
+        'confirm.acknowledge': accessRu['confirm.acknowledge'],
+        'confirm.cancel': accessRu['confirm.cancel'],
+        'confirm.enable': accessRu['confirm.enable'],
       }),
     ]
     return () => { for (const dispose of disposers) dispose() }
@@ -108,13 +127,18 @@ export function apply(ctx: ClientContext): void {
   const sessionFor = (session: ClientSessionContext): SessionFace | undefined =>
     sessions.binding(session.sessionId)?.session
 
-  ctx.effect(() => ctx.locale.register('settings.permission', { zh, en }), 'ui-permission: settings row dictionaries')
+  ctx.effect(() => ctx.locale.register('settings.permission', { zh, en, ru }), 'ui-permission: settings row dictionaries')
 
   const connection = ctx.get('connection') as ConnectionHandle
+  // The label resolver only queries the level.* keys, which exist in the
+  // settings.permission key union — widening the bound translate is safe.
+  const settingsT = ctx.locale.bind('settings.permission') as (key: string) => string
   // The row follows the shared describe mirror, whose owning plugin already
   // refreshes it on document commits and reconnects.
   const controller = new PermissionPresetSettingsController(
-    ctx.settingsScope.describe(), connection.api, ctx.settingsSchema)
+    ctx.settingsScope.describe(), connection.api, ctx.settingsSchema,
+    (value, name) => displayPermissionPreset(value, name, settingsT),
+  )
   const load = (): Promise<void> => controller.load()
   const select = (preset: string): Promise<void> => controller.select(preset)
   const injected = (): PermissionRowInjected => ({

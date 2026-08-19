@@ -1,5 +1,8 @@
 # DeepSeek Harness
 
+> 🇷🇺 **Русский интерфейс** — в ветке `feat/ru-locale` этого форка переведён весь Web UI (~1 100 строк: интерфейс, палитра команд, пресеты разрешений).
+> Установка и первый запуск — в **[гайде по-русски →](https://github.com/Ragnoryok1/deepseek-harness-guide-ru)**. Предложение включить локаль в апстрим: [deepseek-ai#4172](https://github.com/deepseek-ai/deepseek-harness/discussions/4172).
+
 English | [中文](README.zh.md)
 
 DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).

@@ -132,9 +132,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  /* Let the row shrink below the widest name: the trust and in-use badges
+     must stay inside the card even when the name is long (Russian labels
+     are wider than English). */
+  min-width: 0;
 }
 
 .cardName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;

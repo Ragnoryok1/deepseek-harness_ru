@@ -467,6 +467,7 @@ export function TrajectoryView({
       <TrajectoryTimeline
         turns={timelineTurns}
         mode={timelineMode}
+        t={t}
         range={timelineRange}
         hasEarlierRecords={hasOlderHistory}
         onLoadEarlier={loadEarlierHistory}
@@ -480,6 +481,7 @@ export function TrajectoryView({
         <TrajectoryTable
           requestNumbers={requestNumbers}
           turns={timelineTurns}
+          t={t}
           streamingCells={streamingCells}
           timelineFocusIndexes={timelineFocusIndexes}
           searchMatchIndexes={searchMatchIndexes}

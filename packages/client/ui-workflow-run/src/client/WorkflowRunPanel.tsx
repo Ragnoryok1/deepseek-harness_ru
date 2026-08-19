@@ -62,8 +62,18 @@ function statusCount(
   return t(`statusCount.${status}`, { count })
 }
 
+// Russian has three plural categories (one/few/other); zh/en mirror few onto
+// other's text, so their output is unchanged by the extra category.
+function pluralCategory(count: number): 'one' | 'few' | 'other' {
+  const mod10 = count % 10
+  const mod100 = count % 100
+  if (mod10 === 1 && mod100 !== 11) return 'one'
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'few'
+  return 'other'
+}
+
 function memberCount(count: number, t: WorkflowRunPanelProps['t']): string {
-  return t(count === 1 ? 'run.members.one' : 'run.members.other', { count })
+  return t(`run.members.${pluralCategory(count)}`, { count })
 }
 
 type DisclosureMode = 'clean' | 'running' | 'abnormal'

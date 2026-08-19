@@ -513,8 +513,23 @@ function CatalogDropdown({
   // The catalog can arrive before the session-list baseline; never undercount
   // the already-visible direct rows during that short bootstrap window.
   const descendantCount = Math.max(healthy.length, descendants.count)
-  const totalCountKey = descendantCount === 1 ? 'count.total.one' : 'count.total.other'
-  const runningCountKey = descendants.runningCount === 1 ? 'count.running.one' : 'count.running.other'
+  // Russian has three plural categories (one/few/other); zh/en mirror few onto
+  // other's text, so their output is unchanged by the extra category.
+  const pluralCategory = (count: number): 'one' | 'few' | 'other' => {
+    const mod10 = count % 10
+    const mod100 = count % 100
+    return mod10 === 1 && mod100 !== 11 ? 'one'
+      : mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? 'few'
+        : 'other'
+  }
+  const totalCategory = pluralCategory(descendantCount)
+  const totalCountKey = totalCategory === 'one'
+    ? 'count.total.one'
+    : totalCategory === 'few' ? 'count.total.few' : 'count.total.other'
+  const runningCategory = pluralCategory(descendants.runningCount)
+  const runningCountKey = runningCategory === 'one'
+    ? 'count.running.one'
+    : runningCategory === 'few' ? 'count.running.few' : 'count.running.other'
   // Session summaries can announce membership before the descriptor-backed catalog catches up.
   // Keep that entry point visible through disabled loading rows; only catalog rows are navigable.
   const summaryBackedLoading = (descendants.count > 0 || variant === 'switcher')

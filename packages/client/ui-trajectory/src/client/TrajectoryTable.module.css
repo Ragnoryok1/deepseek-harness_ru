@@ -1104,7 +1104,10 @@
 
 .overview > div {
   display: grid;
-  grid-template-columns: 94px minmax(0, 1fr);
+  /* minmax(94px, max-content): the en labels fit 94px; Russian labels are
+     longer (e.g. «Пропускная способность»), so the dt column grows instead
+     of the label bleeding into the dd cell. */
+  grid-template-columns: minmax(94px, max-content) minmax(0, 1fr);
   min-height: 22px;
   padding: 0 14px;
   align-items: center;

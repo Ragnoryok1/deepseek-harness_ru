@@ -3,6 +3,7 @@ export const NS = 'session-log-download'
 
 /** Simplified-Chinese Session export strings. */
 export const zh = {
+  'header.action': '会话日志',
   'dialog.preparingTitle': '正在导出 Session',
   'dialog.preparingDescription': '正在准备包含当前 Session、子 Session 和附件的 ZIP 文件。',
   'dialog.successTitle': 'Session 导出已开始下载',
@@ -14,6 +15,7 @@ export const zh = {
 
 /** English Session export strings. */
 export const en: Record<keyof typeof zh, string> = {
+  'header.action': 'Session log',
   'dialog.preparingTitle': 'Exporting Session',
   'dialog.preparingDescription': 'Preparing a ZIP containing this Session, its sub-Sessions, and attachments.',
   'dialog.successTitle': 'Session download started',
@@ -21,6 +23,18 @@ export const en: Record<keyof typeof zh, string> = {
   'dialog.errorTitle': 'Session export failed',
   'dialog.close': 'Close',
   'dialog.commandFailed': 'Could not start the Session export.',
+}
+
+/** Russian Session export strings. */
+export const ru: Record<keyof typeof zh, string> = {
+  'header.action': 'Журнал сессии',
+  'dialog.preparingTitle': 'Экспорт сессии',
+  'dialog.preparingDescription': 'Готовится ZIP-архив с этой сессией, её подсессиями и вложениями.',
+  'dialog.successTitle': 'Загрузка сессии началась',
+  'dialog.successDescription': 'Браузер загружает ZIP-архив сессии.',
+  'dialog.errorTitle': 'Не удалось экспортировать сессию',
+  'dialog.close': 'Закрыть',
+  'dialog.commandFailed': 'Не удалось запустить экспорт сессии.',
 }
 
 /** Stable locale keys consumed by the shared modal. */

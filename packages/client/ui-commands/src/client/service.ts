@@ -21,6 +21,7 @@ import type {
 } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
 import type { CommandContribution, CommandDecoration, CommandUiContract } from './contract.ts'
 import type { CommandDescriptor } from './directory.ts'
+import type { CommandKey } from './locales.ts'
 import { CommandDirectory } from './directory.ts'
 import { PopupSelectController } from './popup.ts'
 import type { TokenSegment } from './popup.ts'
@@ -52,6 +53,21 @@ interface LiveState {
   readonly contributions: Map<string, CommandContribution>
   readonly decorations: Map<string, CommandDecoration>
   readonly popups: Map<SessionId, PopupSelectController<ClientSessionContext>>
+}
+
+/**
+ * Host catalog descriptions we localize client-side, keyed by the EXACT wire
+ * string the host ships. Matching the full description (not the command name)
+ * keeps custom catalogs — profiles, plugins, tests — untouched: only the
+ * upstream built-in rows translate, anything else renders its own text.
+ */
+const LOCALIZED_HOST_DESCRIPTIONS: Readonly<Record<string, CommandKey>> = {
+  'Compact older conversation history': 'cmd.compact',
+  'Download this Session log as a ZIP archive': 'cmd.export',
+  'record feedback about this session': 'cmd.feedback',
+  'set or view the goal for a long-running task': 'cmd.goal',
+  'Switch the permission preset (sandbox mode + approval policy)': 'cmd.permission',
+  'Enter or leave plan mode': 'cmd.plan',
 }
 
 /** One fuzzy match with its stable source position. */
@@ -252,7 +268,12 @@ export class CommandUiRuntime extends Service implements CommandUiContract {
     const seen = new Set<string>()
     for (const c of list) {
       seen.add(c.name)
-      rows.push({ name: c.name, description: c.description, ...(c.input !== undefined ? { hint: c.input.hint } : {}) })
+      const localized = LOCALIZED_HOST_DESCRIPTIONS[c.description]
+      rows.push({
+        name: c.name,
+        description: localized === undefined ? c.description : this.t(localized),
+        ...(c.input !== undefined ? { hint: c.input.hint } : {}),
+      })
     }
     for (const contribution of this.live.contributions.values()) {
       if (!contribution.available(session)) continue

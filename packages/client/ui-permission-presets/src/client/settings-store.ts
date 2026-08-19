@@ -48,9 +48,15 @@ interface ConstChoice {
  * Read the dynamic preset enum encoded by the host's `defaultPreset` schema.
  * @param view - permission namespace descriptor.
  * @param schema - settings schema operations.
+ * @param display - preset label resolver (locale-aware on the client).
  * @returns current value and selectable options.
  */
-export function permissionDefaultOf(view: SettingsNamespaceView, schema: SettingsSchemaService): {
+export function permissionDefaultOf(
+  view: SettingsNamespaceView,
+  schema: SettingsSchemaService,
+  display: (value: string, name: string) => string = (value, name) =>
+    displayPermissionPreset(value, name),
+): {
   currentValue: string
   options: PermissionDefaultOption[]
 } {
@@ -68,8 +74,8 @@ export function permissionDefaultOf(view: SettingsNamespaceView, schema: Setting
     return [{
       id: choice.value,
       label: typeof described === 'string' && described.length > 0
-        ? displayPermissionPreset(choice.value, described)
-        : displayPermissionPreset(choice.value, choice.value),
+        ? display(choice.value, described)
+        : display(choice.value, choice.value),
     }]
   })
   if (options.length === 0 || !options.some(option => option.id === value)) {
@@ -98,11 +104,14 @@ export class PermissionPresetSettingsController {
    * @param describeFace - the shared mirror's read/fold face (descriptor and schema source).
    * @param api - settings wire face for the `defaultPreset` write.
    * @param schema - settings-owned schema operations.
+   * @param display - preset label resolver (locale-aware on the client).
    */
   constructor(
     private readonly describeFace: SettingsDescribeFace,
     private readonly api: Pick<IApiClient, 'settings'>,
     private readonly schema: SettingsSchemaService,
+    private readonly display: (value: string, name: string) => string = (value, name) =>
+      displayPermissionPreset(value, name),
   ) {}
 
   /**
@@ -195,7 +204,7 @@ export class PermissionPresetSettingsController {
       return
     }
     try {
-      const resolved = permissionDefaultOf(view, this.schema)
+      const resolved = permissionDefaultOf(view, this.schema, this.display)
       const { writable } = mirrored.view
       this.store.update((state) => {
         state.status = 'ready'

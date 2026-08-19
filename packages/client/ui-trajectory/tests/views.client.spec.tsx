@@ -32,7 +32,7 @@ import { zh as conversationZh } from '@deepseek-ai/dsh-client-ui-conversation/sr
 import { apply as localeApply, inject as localeInject } from '@deepseek-ai/dsh-client-locale/client'
 import { stubSettingsScope } from '@deepseek-ai/dsh-client-test-runtime'
 import type { LocaleKeysOf } from '@deepseek-ai/dsh-client-ui-slots'
-import { zh, type TrajectoryKey } from '../src/client/locales.ts'
+import { en, zh, type TrajectoryKey } from '../src/client/locales.ts'
 import { apply, inject } from '@deepseek-ai/dsh-client-ui-trajectory/client'
 import { apply as nodeApply } from '@deepseek-ai/dsh-client-ui-trajectory'
 import type { TrajectoryTurnModel } from '../src/client/layout.ts'
@@ -248,7 +248,7 @@ function mount(slots: SlotRegistry, nodes: ConversationSnapshot['nodes'] = NODES
           loadOlder: trajectory.loadOlder,
           setActualDuration: trajectory.setActualDuration,
           useDuration: bindSnapshotSelector(trajectory.hooks.duration),
-          t: (key: TrajectoryKey) => zh[key],
+          t: (key: TrajectoryKey) => en[key],
         }
       })()
       : injected
@@ -368,7 +368,7 @@ describe('tab switching in ConversationRoot', () => {
     expect(screen.queryByText(/turns ·/)).toBeNull()
     expect(view.container.querySelectorAll('tr[data-turn-start="true"]')).toHaveLength(2)
     expect(screen.queryByRole('columnheader')).toBeNull()
-    expect(screen.getByRole('toolbar', { name: '轨迹工具栏' })).toBeTruthy()
+    expect(screen.getByRole('toolbar', { name: 'Trajectory toolbar' })).toBeTruthy()
     expect(screen.getByRole('region', { name: 'Trajectory timeline' })).toBeTruthy()
     expect(view.container.querySelector('[data-conversation-composer-overlay]')).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Collapse turns' }))
@@ -580,7 +580,7 @@ describe('tab switching in ConversationRoot', () => {
     const b = await bench(historySnapshot([]))
     mount(b.slots)
     fireEvent.click(screen.getByRole('tab', { name: 'Trajectory' }))
-    expect(screen.getByRole('toolbar', { name: '轨迹工具栏' })).toBeTruthy()
+    expect(screen.getByRole('toolbar', { name: 'Trajectory toolbar' })).toBeTruthy()
     expect(screen.getByText('No timing data')).toBeTruthy()
     expect(screen.getByRole<HTMLButtonElement>('button', {
       name: 'Collapse turns',
@@ -623,6 +623,11 @@ describe('timeline projection', () => {
     try {
       const view = render(
         <TrajectoryTimeline
+          t={(key: string, params?: Record<string, unknown>) => {
+            const template = en[key as TrajectoryKey] ?? key
+            if (!params) return template
+            return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+          }}
           turns={[{
             turn: 1,
             groups: [{
@@ -673,6 +678,11 @@ describe('timeline projection', () => {
     const onLoadEarlier = vi.fn(() => new Promise<boolean>(() => {}))
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={turns}
         mode="sequence"
         range={null}
@@ -698,6 +708,11 @@ describe('timeline projection', () => {
 
     view.rerender(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={turns}
         mode="sequence"
         range={null}
@@ -711,6 +726,11 @@ describe('timeline projection', () => {
   it('cancels native scrolling across the timeline while zooming', () => {
     render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -733,6 +753,11 @@ describe('timeline projection', () => {
   it('scales sequence gutters with narrow operation spans', () => {
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -760,6 +785,11 @@ describe('timeline projection', () => {
     }]
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={denseTurns}
         mode="sequence"
         range={null}
@@ -777,6 +807,11 @@ describe('timeline projection', () => {
     const onRangeChange = vi.fn()
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={{ start: 2, end: 4 }}
@@ -809,6 +844,11 @@ describe('timeline projection', () => {
     const onRangeChange = vi.fn()
     render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={{ start: 2, end: 4 }}
@@ -828,6 +868,11 @@ describe('timeline projection', () => {
     const onRangeChange = vi.fn()
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={{ start: 2, end: 4 }}
@@ -858,6 +903,11 @@ describe('timeline projection', () => {
     const onRangeChange = vi.fn()
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -873,6 +923,11 @@ describe('timeline projection', () => {
 
     view.rerender(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -889,6 +944,11 @@ describe('timeline projection', () => {
 
     view.rerender(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -908,6 +968,11 @@ describe('timeline projection', () => {
     const onRangeChange = vi.fn()
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={longTurns}
         mode="sequence"
         range={null}
@@ -984,6 +1049,11 @@ describe('timeline projection', () => {
     }] satisfies readonly TrajectoryTurnModel[]
     const view = render(
       <TrajectoryTimeline
+        t={(key: string, params?: Record<string, unknown>) => {
+          const template = en[key as TrajectoryKey] ?? key
+          if (!params) return template
+          return template.replace(/\{(\w+)\}/g, (match, name) => name in params ? String(params[name]) : match)
+        }}
         turns={errorTurns}
         mode="sequence"
         range={null}
