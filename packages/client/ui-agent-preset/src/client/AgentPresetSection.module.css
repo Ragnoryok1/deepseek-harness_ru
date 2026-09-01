@@ -185,6 +185,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  /* Let the row shrink below the widest name: the trust and in-use badges
+     must stay inside the card even when the name is long (Russian labels
+     are wider than English). */
+  min-width: 0;
   /* Anchors the broken badge's tooltip: the badge itself stays unpositioned so
      its `::after` resolves against the card's own width instead of against a
      badge that sits partway across it. A tooltip grown from the badge would
@@ -193,6 +197,10 @@
 }
 
 .cardName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
