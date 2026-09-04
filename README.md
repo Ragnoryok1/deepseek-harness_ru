@@ -1,5 +1,12 @@
 # DeepSeek Harness
 
+> **🇷🇺 Русская локаль теперь отдельный плагин.**
+> RU публикуется и поддерживается как **`@ragnoryok1/dsh-client-locale-ru`**: `dsh plugin --profile web add @ragnoryok1/dsh-client-locale-ru`
+>
+> Source: https://github.com/Ragnoryok1/dsh-client-locale-ru · npm: https://www.npmjs.com/package/@ragnoryok1/dsh-client-locale-ru · Announcement: https://github.com/deepseek-ai/deepseek-harness/discussions/5582
+>
+> Этот форк — история разработки; RU ведётся в standalone-репо.
+
 English | [中文](README.zh.md)
 
 DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
